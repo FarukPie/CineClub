@@ -7,8 +7,6 @@
 
 RapidAPI aracılığıyla IMDb verilerini çekerek **En İyi 250 Filmi** dinamik olarak listeleyen modern bir web uygulaması. **.NET 8.0** ve **ASP.NET Core MVC** ile geliştirilen bu proje; dış API tüketimi (API Consumption), sunucu taraflı render (SSR) ve dinamik içerik yönetimi yeteneklerini sergilemektedir.
 
-![Proje Ekran Görüntüsü](https://via.placeholder.com/1000x500?text=Proje+Ekran+Goruntusu+Buraya)
-*(Not: Lütfen yukarıdaki alanı projenizin gerçek bir ekran görüntüsü ile değiştirin)*
 
 ## 🚀 Özellikler
 
