@@ -1,0 +1,571 @@
+﻿@model List<ImdbViewModel.Movie>
+@{
+    ViewData["Title"] = "Filmler";
+    int count = 0;
+    var currentGenre = ViewBag.CurrentGenre ?? "all";
+}
+
+<section class="hero-section">
+    <h1 class="hero-title">🎬 Film Dünyasını Keşfet</h1>
+    <p class="hero-subtitle">En sevilen filmler, senin için bir tık uzakta</p>
+    
+    <!-- Tür Filtre Butonları -->
+    <div class="filter-container">
+        <a href="@Url.Action("Index", new { genre = "all" })" class="filter-btn @(currentGenre == "all" ? "active" : "")">🎥 Tümü</a>
+        <a href="@Url.Action("Index", new { genre = "Drama" })" class="filter-btn @(currentGenre == "Drama" ? "active" : "")">🎭 Drama</a>
+        <a href="@Url.Action("Index", new { genre = "Action" })" class="filter-btn @(currentGenre == "Action" ? "active" : "")">💥 Aksiyon</a>
+        <a href="@Url.Action("Index", new { genre = "Comedy" })" class="filter-btn @(currentGenre == "Comedy" ? "active" : "")">😂 Komedi</a>
+        <a href="@Url.Action("Index", new { genre = "Crime" })" class="filter-btn @(currentGenre == "Crime" ? "active" : "")">🔫 Suç</a>
+        <a href="@Url.Action("Index", new { genre = "Sci-Fi" })" class="filter-btn @(currentGenre == "Sci-Fi" ? "active" : "")">🚀 Bilim Kurgu</a>
+        <a href="@Url.Action("Index", new { genre = "Romance" })" class="filter-btn @(currentGenre == "Romance" ? "active" : "")">💕 Romantik</a>
+        <a href="@Url.Action("Index", new { genre = "Thriller" })" class="filter-btn @(currentGenre == "Thriller" ? "active" : "")">😱 Gerilim</a>
+        <a href="@Url.Action("Index", new { genre = "Adventure" })" class="filter-btn @(currentGenre == "Adventure" ? "active" : "")">🗺️ Macera</a>
+    </div>
+    
+    <!-- Rastgele Film Butonu -->
+    <button class="random-movie-btn" onclick="getRandomMovie()">
+        🎲 Şanslı Film
+    </button>
+</section>
+
+<!-- Favoriler Panel -->
+<div class="favorites-panel" id="favoritesPanel">
+    <div class="favorites-header">
+        <h3>❤️ Favori Filmlerim</h3>
+        <button class="close-favorites" onclick="toggleFavoritesPanel()">✕</button>
+    </div>
+    <div class="favorites-list" id="favoritesList">
+        <p class="no-favorites">Henüz favori film eklemediniz.</p>
+    </div>
+</div>
+<div class="favorites-overlay" id="favoritesOverlay" onclick="toggleFavoritesPanel()"></div>
+
+<div class="movie-grid">
+    @foreach (var item in Model)
+    {
+        count++;
+        <article class="movie-card clickable" 
+                 data-id="@item.id"
+                 data-title="@item.originalTitle"
+                 data-year="@item.startYear"
+                 data-rating="@item.averageRating"
+                 data-runtime="@item.runtimeMinutes"
+                 data-image="@item.primaryImage"
+                 data-description="@(item.description ?? "")"
+                 data-genres="@(item.genres != null ? string.Join(",", item.genres) : "")"
+                 data-url="@item.url"
+                 onclick="showMovieModalFromCard(this)">
+            <div class="movie-poster-wrapper">
+                @if (!string.IsNullOrEmpty(item.primaryImage))
+                {
+                    <img src="@item.primaryImage" alt="@item.originalTitle" class="movie-poster" loading="lazy" />
+                }
+                else
+                {
+                    <div class="movie-poster" style="background: linear-gradient(135deg, #2a2a4a, #1a1a2e); display: flex; align-items: center; justify-content: center; color: #666;">
+                        🎬
+                    </div>
+                }
+                <span class="movie-rank">#@count</span>
+                <span class="movie-rating">@item.averageRating.ToString("0.0")</span>
+            </div>
+            <div class="movie-info">
+                <h3 class="movie-title">@item.originalTitle</h3>
+                <p class="movie-year">📅 @item.startYear</p>
+                <div class="movie-genres">
+                    @if (item.genres != null)
+                    {
+                        @foreach (var genre in item.genres.Take(3))
+                        {
+                            <span class="genre-tag">@genre</span>
+                        }
+                    }
+                </div>
+            </div>
+        </article>
+    }
+</div>
+
+<!-- Sayfalama -->
+@{
+    var currentPage = (int)(ViewBag.CurrentPage ?? 1);
+    var totalPages = (int)(ViewBag.TotalPages ?? 1);
+    var totalMovies = (int)(ViewBag.TotalMovies ?? 0);
+}
+
+@if (totalPages > 1)
+{
+    <div class="pagination-container">
+        <div class="pagination-info">
+            <span>Toplam @totalMovies film | Sayfa @currentPage / @totalPages</span>
+        </div>
+        <div class="pagination">
+            @if (currentPage > 1)
+            {
+                <a href="@Url.Action("Index", new { genre = currentGenre, page = 1 })" class="page-btn first-page" title="İlk Sayfa">«</a>
+                <a href="@Url.Action("Index", new { genre = currentGenre, page = currentPage - 1 })" class="page-btn prev-page" title="Önceki">‹</a>
+            }
+            
+            @{
+                int startPage = Math.Max(1, currentPage - 2);
+                int endPage = Math.Min(totalPages, currentPage + 2);
+                
+                if (startPage > 1)
+                {
+                    <a href="@Url.Action("Index", new { genre = currentGenre, page = 1 })" class="page-btn">1</a>
+                    if (startPage > 2)
+                    {
+                        <span class="page-dots">...</span>
+                    }
+                }
+                
+                for (int i = startPage; i <= endPage; i++)
+                {
+                    if (i == currentPage)
+                    {
+                        <span class="page-btn active">@i</span>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", new { genre = currentGenre, page = i })" class="page-btn">@i</a>
+                    }
+                }
+                
+                if (endPage < totalPages)
+                {
+                    if (endPage < totalPages - 1)
+                    {
+                        <span class="page-dots">...</span>
+                    }
+                    <a href="@Url.Action("Index", new { genre = currentGenre, page = totalPages })" class="page-btn">@totalPages</a>
+                }
+            }
+            
+            @if (currentPage < totalPages)
+            {
+                <a href="@Url.Action("Index", new { genre = currentGenre, page = currentPage + 1 })" class="page-btn next-page" title="Sonraki">›</a>
+                <a href="@Url.Action("Index", new { genre = currentGenre, page = totalPages })" class="page-btn last-page" title="Son Sayfa">»</a>
+            }
+        </div>
+    </div>
+}
+
+<!-- Film Detay Modal -->
+<div class="modal fade" id="movieDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content movie-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="movieModalTitle">🎬 Film Detayları</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-movie-content">
+                    <div class="modal-poster-wrapper">
+                        <img id="modalPoster" src="" alt="Film Posteri" class="modal-poster" />
+                    </div>
+                    <div class="modal-info">
+                        <h2 id="modalTitle" class="modal-movie-title"></h2>
+                        <div class="modal-meta">
+                            <span id="modalYear" class="meta-item">📅</span>
+                            <span id="modalRating" class="meta-item rating">⭐</span>
+                            <span id="modalRuntime" class="meta-item">⏱️</span>
+                        </div>
+                        <div id="modalGenres" class="modal-genres"></div>
+                        <p id="modalDescription" class="modal-description"></p>
+                        <div class="modal-actions">
+                            <a id="modalLink" href="#" target="_blank" rel="noopener" class="modal-imdb-btn">
+                                🔗 IMDB'de Gör
+                            </a>
+                            <button id="favoriteBtn" class="favorite-btn" onclick="toggleFavorite()">
+                                <span class="fav-icon">♡</span> Favorilere Ekle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chatbot Widget -->
+<div class="chatbot-container">
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <span class="chatbot-icon">🤖</span>
+        <span class="chatbot-close">✕</span>
+    </button>
+    
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+            <span class="chatbot-avatar">🎬</span>
+            <div class="chatbot-header-info">
+                <h4>Film Öneri Botu</h4>
+                <p>Hangi tür film istersin?</p>
+            </div>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="chat-message bot">
+                <span class="message-avatar">🎬</span>
+                <div class="message-content">
+                    Merhaba! 👋 Ben film öneri botuyum. Bana hangi tür film istediğini söyle!
+                    <br><br>
+                    Örneğin:<br>
+                    • "Korku filmi öner"<br>
+                    • "Komedi istiyorum"<br>
+                    • "En iyi filmler"
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Film türü yaz..." onkeypress="handleChatKeypress(event)" />
+            <button onclick="sendChatMessage()">➤</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Mevcut film bilgisi (favoriler için)
+    let currentMovie = null;
+    
+    // Sayfa yüklendiğinde favorileri yükle
+    document.addEventListener('DOMContentLoaded', function() {
+        updateFavoriteCount();
+    });
+
+    // Film Modal Fonksiyonu - Data Attribute'lardan
+    function showMovieModalFromCard(element) {
+        const title = element.dataset.title || '';
+        const year = element.dataset.year || '';
+        const rating = element.dataset.rating || '0';
+        const runtime = element.dataset.runtime || '';
+        const image = element.dataset.image || '';
+        const description = element.dataset.description || '';
+        const genres = element.dataset.genres || '';
+        const url = element.dataset.url || '#';
+        const id = element.dataset.id || title;
+        
+        // Mevcut film bilgisini kaydet
+        currentMovie = { id, title, year, rating, runtime, image, description, genres, url };
+        
+        document.getElementById('movieModalTitle').textContent = '🎬 Film Detayları';
+        document.getElementById('modalPoster').src = image || '/images/no-poster.jpg';
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalYear').textContent = '📅 ' + year;
+        document.getElementById('modalRating').textContent = '⭐ ' + parseFloat(rating).toFixed(1);
+        document.getElementById('modalRuntime').textContent = '⏱️ ' + (runtime || 'N/A') + ' dk';
+        document.getElementById('modalDescription').textContent = description || 'Açıklama bulunamadı.';
+        document.getElementById('modalLink').href = url;
+        
+        const genreArray = genres ? genres.split(',').filter(g => g.trim()) : [];
+        const genresHtml = genreArray.map(g => `<span class="genre-tag">${g.trim()}</span>`).join('');
+        document.getElementById('modalGenres').innerHTML = genresHtml;
+        
+        // Favori buton durumunu güncelle
+        updateFavoriteButton();
+        
+        const modal = new bootstrap.Modal(document.getElementById('movieDetailModal'));
+        modal.show();
+    }
+
+    // Rastgele Film Fonksiyonu
+    async function getRandomMovie() {
+        try {
+            const response = await fetch('/Imdb/GetRandomMovie');
+            const data = await response.json();
+            
+            if (data.success) {
+                const movie = data.movie;
+                
+                // Mevcut film bilgisini kaydet
+                currentMovie = {
+                    id: movie.id,
+                    title: movie.title,
+                    year: movie.year,
+                    rating: movie.rating,
+                    runtime: movie.runtime,
+                    image: movie.image,
+                    description: movie.description,
+                    genres: movie.genres ? movie.genres.join(',') : '',
+                    url: movie.url
+                };
+                
+                document.getElementById('movieModalTitle').textContent = '🎲 Şanslı Filminiz';
+                document.getElementById('modalPoster').src = movie.image || '/images/no-poster.jpg';
+                document.getElementById('modalTitle').textContent = movie.title;
+                document.getElementById('modalYear').textContent = '📅 ' + movie.year;
+                document.getElementById('modalRating').textContent = '⭐ ' + movie.rating.toFixed(1);
+                document.getElementById('modalRuntime').textContent = '⏱️ ' + movie.runtime + ' dk';
+                document.getElementById('modalDescription').textContent = movie.description || 'Açıklama bulunamadı.';
+                document.getElementById('modalLink').href = movie.url;
+                
+                const genresHtml = movie.genres ? movie.genres.map(g => `<span class="genre-tag">${g}</span>`).join('') : '';
+                document.getElementById('modalGenres').innerHTML = genresHtml;
+                
+                // Favori buton durumunu güncelle
+                updateFavoriteButton();
+                
+                const modal = new bootstrap.Modal(document.getElementById('movieDetailModal'));
+                modal.show();
+            }
+        } catch (error) {
+            console.error('Film yüklenirken hata:', error);
+        }
+    }
+
+    // Arama Fonksiyonları
+    let searchTimeout;
+    const navSearchInput = document.getElementById('navSearchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (navSearchInput) {
+        navSearchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            searchTimeout = setTimeout(() => performSearch(), 300);
+        });
+        
+        navSearchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                performSearch();
+            }
+        });
+    }
+    
+    async function performSearch() {
+        const query = navSearchInput.value.trim();
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/Imdb/SearchMovies?query=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            
+            if (data.success && data.movies.length > 0) {
+                searchResults.innerHTML = data.movies.map(movie => `
+                    <div class="search-result-item" onclick="showMovieModal('${movie.id}', '${movie.title.replace(/'/g, "\\'")}', '${movie.year}', '${movie.rating}', '${movie.runtime}', '${movie.image}', '${(movie.description || '').replace(/'/g, "\\'")}', '${(movie.genres || []).join(',')}', '${movie.url}')">
+                        <img src="${movie.image || '/images/no-poster.jpg'}" alt="${movie.title}" class="search-result-poster" />
+                        <div class="search-result-info">
+                            <span class="search-result-title">${movie.title}</span>
+                            <span class="search-result-meta">📅 ${movie.year} · ⭐ ${movie.rating.toFixed(1)}</span>
+                        </div>
+                    </div>
+                `).join('');
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<div class="search-no-results">Film bulunamadı</div>';
+                searchResults.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Arama hatası:', error);
+        }
+    }
+    
+    // Arama dışına tıklandığında sonuçları gizle
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+            searchResults.style.display = 'none';
+        }
+    });
+    
+    // Chatbot Fonksiyonları
+    function toggleChatbot() {
+        document.querySelector('.chatbot-container').classList.toggle('open');
+    }
+    
+    function handleChatKeypress(e) {
+        if (e.key === 'Enter') {
+            sendChatMessage();
+        }
+    }
+    
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        
+        if (!message) return;
+        
+        // Kullanıcı mesajını ekle
+        addChatMessage(message, 'user');
+        input.value = '';
+        
+        try {
+            const response = await fetch('/Imdb/ChatRecommendation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                addChatMessage(data.message, 'bot');
+                
+                if (data.movies && data.movies.length > 0) {
+                    addMovieCards(data.movies);
+                }
+            }
+        } catch (error) {
+            addChatMessage('Bir hata oluştu, tekrar deneyin.', 'bot');
+        }
+    }
+    
+    function addChatMessage(text, sender) {
+        const messagesContainer = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
+        
+        const avatar = sender === 'bot' ? '🎬' : '👤';
+        messageDiv.innerHTML = `
+            <span class="message-avatar">${avatar}</span>
+            <div class="message-content">${text.replace(/\n/g, '<br>')}</div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    function addMovieCards(movies) {
+        const messagesContainer = document.getElementById('chatMessages');
+        
+        movies.forEach(movie => {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'chat-movie-card';
+            cardDiv.innerHTML = `
+                <img src="${movie.image || '/images/no-poster.jpg'}" alt="${movie.title}" class="chat-movie-poster" />
+                <div class="chat-movie-info">
+                    <h5>${movie.title}</h5>
+                    <p>📅 ${movie.year} · ⭐ ${movie.rating.toFixed(1)}</p>
+                    <a href="${movie.url}" target="_blank" rel="noopener">IMDB →</a>
+                </div>
+            `;
+            messagesContainer.appendChild(cardDiv);
+        });
+        
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // ===== FAVORİLER SİSTEMİ =====
+    
+    function getFavorites() {
+        const favorites = localStorage.getItem('movieFavorites');
+        return favorites ? JSON.parse(favorites) : [];
+    }
+    
+    function saveFavorites(favorites) {
+        localStorage.setItem('movieFavorites', JSON.stringify(favorites));
+    }
+    
+    function isInFavorites(movieId) {
+        const favorites = getFavorites();
+        return favorites.some(f => f.id === movieId || f.title === movieId);
+    }
+    
+    function toggleFavorite() {
+        if (!currentMovie) return;
+        
+        const favorites = getFavorites();
+        const movieId = currentMovie.id || currentMovie.title;
+        const index = favorites.findIndex(f => f.id === movieId || f.title === movieId);
+        
+        if (index > -1) {
+            // Favoriden çıkar
+            favorites.splice(index, 1);
+        } else {
+            // Favoriye ekle
+            favorites.push({
+                id: currentMovie.id,
+                title: currentMovie.title,
+                year: currentMovie.year,
+                rating: currentMovie.rating,
+                image: currentMovie.image,
+                url: currentMovie.url
+            });
+        }
+        
+        saveFavorites(favorites);
+        updateFavoriteButton();
+        updateFavoriteCount();
+        renderFavorites();
+    }
+    
+    function updateFavoriteButton() {
+        const btn = document.getElementById('favoriteBtn');
+        if (!btn || !currentMovie) return;
+        
+        const movieId = currentMovie.id || currentMovie.title;
+        if (isInFavorites(movieId)) {
+            btn.innerHTML = '<span class="fav-icon">❤️</span> Favorilerden Çıkar';
+            btn.classList.add('in-favorites');
+        } else {
+            btn.innerHTML = '<span class="fav-icon">♡</span> Favorilere Ekle';
+            btn.classList.remove('in-favorites');
+        }
+    }
+    
+    function updateFavoriteCount() {
+        const countEl = document.getElementById('favCount');
+        if (countEl) {
+            const count = getFavorites().length;
+            countEl.textContent = count;
+            countEl.style.display = count > 0 ? 'inline-flex' : 'none';
+        }
+    }
+    
+    function toggleFavoritesPanel() {
+        const panel = document.getElementById('favoritesPanel');
+        const overlay = document.getElementById('favoritesOverlay');
+        panel.classList.toggle('open');
+        overlay.classList.toggle('open');
+        
+        if (panel.classList.contains('open')) {
+            renderFavorites();
+        }
+    }
+    
+    function renderFavorites() {
+        const container = document.getElementById('favoritesList');
+        const favorites = getFavorites();
+        
+        if (favorites.length === 0) {
+            container.innerHTML = '<p class="no-favorites">Henüz favori film eklemediniz.</p>';
+            return;
+        }
+        
+        container.innerHTML = favorites.map(movie => `
+            <div class="favorite-item">
+                <img src="${movie.image || '/images/no-poster.jpg'}" alt="${movie.title}" class="favorite-poster" />
+                <div class="favorite-info">
+                    <h4>${movie.title}</h4>
+                    <p>📅 ${movie.year} · ⭐ ${parseFloat(movie.rating).toFixed(1)}</p>
+                </div>
+                <button class="remove-favorite" onclick="removeFavorite('${movie.id || movie.title}')" title="Favoriden Çıkar">
+                    ✕
+                </button>
+            </div>
+        `).join('');
+    }
+    
+    function removeFavorite(movieId) {
+        const favorites = getFavorites();
+        const index = favorites.findIndex(f => f.id === movieId || f.title === movieId);
+        
+        if (index > -1) {
+            favorites.splice(index, 1);
+            saveFavorites(favorites);
+            updateFavoriteCount();
+            renderFavorites();
+        }
+    }
+</script>
+}

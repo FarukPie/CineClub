@@ -1,0 +1,162 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|c:\\users\\lenovo\\source\\repos\\rapid_api_project\\rapid_api_project\\views\\imdb\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|solutionrelative:rapid_api_project\\views\\imdb\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Views\\Gas\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Rapid_Api_Project\\Views\\Gas\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|c:\\users\\lenovo\\source\\repos\\rapid_api_project\\rapid_api_project\\controllers\\imdbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|solutionrelative:rapid_api_project\\controllers\\imdbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|c:\\users\\lenovo\\source\\repos\\rapid_api_project\\rapid_api_project\\models\\imdbviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D99EFD85-8562-497A-97BE-04A9445ECD0B}|Rapid_Api_Project\\Rapid_Api_Project.csproj|solutionrelative:rapid_api_project\\models\\imdbviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Models\\GasPriceViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Rapid_Api_Project\\Models\\GasPriceViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Controllers\\GasController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Rapid_Api_Project\\Controllers\\GasController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 345,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Views\\Gas\\Index.cshtml",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Views\\Gas\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Views\\Gas\\Index.cshtml",
+              "RelativeToolTip": "Rapid_Api_Project\\Views\\Gas\\Index.cshtml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-23T17:07:42.321Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GasPriceViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Models\\GasPriceViewModel.cs",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Models\\GasPriceViewModel.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Models\\GasPriceViewModel.cs",
+              "RelativeToolTip": "Rapid_Api_Project\\Models\\GasPriceViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-23T17:05:23.79Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GasController.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Controllers\\GasController.cs",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Controllers\\GasController.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Controllers\\GasController.cs",
+              "RelativeToolTip": "Rapid_Api_Project\\Controllers\\GasController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-23T17:02:24.471Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Views\\Imdb\\Index.cshtml",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Views\\Imdb\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Views\\Imdb\\Index.cshtml",
+              "RelativeToolTip": "Rapid_Api_Project\\Views\\Imdb\\Index.cshtml",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAlwKQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-23T15:55:03.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ImdbViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Models\\ImdbViewModel.cs",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Models\\ImdbViewModel.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Models\\ImdbViewModel.cs",
+              "RelativeToolTip": "Rapid_Api_Project\\Models\\ImdbViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-23T15:41:15.246Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ImdbController.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Controllers\\ImdbController.cs",
+              "RelativeDocumentMoniker": "Rapid_Api_Project\\Controllers\\ImdbController.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\source\\repos\\Rapid_Api_Project\\Rapid_Api_Project\\Controllers\\ImdbController.cs",
+              "RelativeToolTip": "Rapid_Api_Project\\Controllers\\ImdbController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-23T15:16:10.875Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 153,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 21,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 398,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
